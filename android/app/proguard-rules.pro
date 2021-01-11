@@ -8,3 +8,5 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

@@ -1,11 +1,14 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Dimensions, TouchableHighlight} from 'react-native';
+import Ripple from 'react-native-material-ripple';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import ChatList from '../../components/ChatList';
 
-import {colors} from '../../assets/definitions';
+import {Colors} from '../../styles/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {color} from 'react-native-reanimated';
+import {ServicesScreen} from './Services';
+import gStyles from '../../styles/gStyles';
+import definitions from '../../styles/definitions';
 
 const chats = [
   {
@@ -23,13 +26,9 @@ const chats = [
     name: 'Emre Orhan',
   },
 ];
-const FirstRoute = () => (
-  <View style={{margin: 15}}>
-    <ChatList style={[styles.scene]} chats={chats} />
-  </View>
-);
+const FirstRoute = () => <ChatList style={[styles.scene]} chats={chats} />;
 
-const SecondRoute = () => <View style={[styles.scene]} />;
+const SecondRoute = () => <ServicesScreen />;
 
 const initialLayout = {
   width: Dimensions.get('window').width,
@@ -46,67 +45,54 @@ const MessagesScreen = (props) => {
     second: SecondRoute,
   });
   return (
-    <View style={{flex: 1}}>
+    <View style={gStyles.container}>
       <View
         style={{
+          zIndex: 1,
           position: 'absolute',
-          bottom: 20,
-          right: 20,
+          bottom: definitions.layout.gutters.sm,
+          right: definitions.layout.gutters.sm,
         }}>
-        <TouchableOpacity
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: colors.red,
-            borderRadius: 100,
-            shadowColor: '#3d3d3d4a',
-            shadowOffset: 0,
-            shadowOpacity: 1,
-            elevation: 8,
-            height: 55,
-            width: 55,
-            marginBottom: 10,
-          }}>
-          <Icon name="md-rocket-outline" size={30} color={colors.light} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: colors.green,
-            borderRadius: 100,
-            shadowColor: '#3d3d3d4a',
-            shadowOffset: 0,
-            shadowOpacity: 1,
-            elevation: 8,
-            height: 55,
-            width: 55,
-          }}>
+        <Ripple
+          onPress={() => alert('ok')}
+          rippleContainerBorderRadius={definitions.button.radius}
+          style={[
+            gStyles.floatButton,
+            {
+              backgroundColor: Colors.red,
+              marginBottom: definitions.layout.gutters.xs,
+            },
+          ]}>
+          <Icon name="md-rocket-outline" size={30} color={Colors.light} />
+        </Ripple>
+        <Ripple
+          onPress={() => alert('ok')}
+          rippleContainerBorderRadius={definitions.button.radius}
+          style={[
+            gStyles.floatButton,
+            {
+              backgroundColor: Colors.green,
+              borderRadius: 100,
+            },
+          ]}>
           <Icon
             name="chatbox-ellipses-outline"
             size={30}
-            color={colors.light}
+            color={Colors.light}
           />
-        </TouchableOpacity>
+        </Ripple>
       </View>
       <TabView
         renderTabBar={(props) => (
           <TabBar
             {...props}
-            activeColor={colors.green}
-            inactiveColor={colors.grey}
+            activeColor={Colors.green}
+            inactiveColor={Colors.grey}
             indicatorStyle={{
-              backgroundColor: colors.green,
+              backgroundColor: Colors.green,
               shadowOpacity: null,
             }}
-            style={{
-              backgroundColor: 'transparent',
-              elevation: 0,
-              shadowOpacity: 0,
-              borderBottomWidth: 0,
-              borderBottomColor: colors.grey,
-              borderBottomWidth: 0.5,
-            }}
+            style={gStyles.tabBar}
           />
         )}
         navigationState={{index, routes}}

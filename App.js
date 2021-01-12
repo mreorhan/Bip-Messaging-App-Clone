@@ -1,12 +1,17 @@
 import * as React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TextInput} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MessagesScreen from './src/screens/messages/Messages';
 import {ServicesScreen} from './src/screens/messages/Services';
-import {colors} from './src/assets/definitions';
+import {Colors} from './src/styles/colors';
+import Ripple from 'react-native-material-ripple';
+import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchScreen';
+import definitions from './src/styles/definitions';
+import gStyles from './src/styles/gStyles';
+import {ChatScreen} from './src/screens/messages/Chat';
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -19,7 +24,7 @@ const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
-function Root() {
+const Root = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -39,8 +44,8 @@ function Root() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: colors.green,
-        inactiveTintColor: colors.grey,
+        activeTintColor: Colors.green,
+        inactiveTintColor: Colors.grey,
         labelStyle: {paddingTop: 4, fontWeight: 'bold'},
         keyboardHidesTabBar: true,
         style: {height: 60},
@@ -51,23 +56,28 @@ function Root() {
       <Tab.Screen name="More" component={HomeScreen} />
     </Tab.Navigator>
   );
-}
+};
 
-function App() {
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        mode="modal"
         screenOptions={{
           headerStyle: {
-            backgroundColor: colors.green,
+            backgroundColor: Colors.green,
           },
           animationEnabled: true,
+          headerTitleStyle: {
+            fontWeight: 'normal',
+          },
+          headerTintColor: '#fff',
           headerTitleAlign: 'center',
         }}>
         <Stack.Screen
           name="Home"
           component={Root}
-          options={{
+          options={({route, navigation}) => ({
             title: 'Messages',
             headerLeft: () => (
               <View style={{flexDirection: 'row'}}>
@@ -84,18 +94,41 @@ function App() {
               </View>
             ),
             headerRight: () => (
-              <View style={{marginRight: 10}}>
-                <Icon name={'search'} size={24} color={colors.light} />
-              </View>
+              <Ripple
+                rippleContainerBorderRadius={definitions.button.radius}
+                style={{padding: 10}}
+                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                <Icon name={'search'} size={24} color={Colors.light} />
+              </Ripple>
             ),
-            headerTitleStyle: {
-              fontWeight: 'normal',
-            },
-            headerTintColor: '#fff',
-          }}
+          })}
         />
         <Stack.Screen name="Calls" component={HomeScreen} />
         <Stack.Screen name="Services" component={ServicesScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen
+          name="ContactUserSearchScreen"
+          options={{
+            title: 'Search',
+            header: (props) => (
+              <View style={gStyles.row}>
+                <HeaderBackButton
+                  {...props}
+                  onPress={() => props.navigation.goBack()}
+                />
+                <TextInput
+                  placeholder="Search..."
+                  autoFocus
+                  onChangeText={(value) =>
+                    props.navigation.setParams({headerInputText: value})
+                  }
+                  value={props.navigation.headerInputText}
+                />
+              </View>
+            ),
+          }}
+          component={ContactUserSearchScreen}
+        />
         <Stack.Screen
           name="More"
           options={{title: 'More'}}
@@ -104,6 +137,6 @@ function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default App;

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
+import gStyles from '../../styles/gStyles';
 
 export class ServicesScreen extends React.Component {
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={gStyles.flexCenter}>
         <Text>Let's Get BiB'In</Text>
       </View>
     );

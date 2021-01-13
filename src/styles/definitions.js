@@ -1,3 +1,5 @@
+import {Dimensions} from 'react-native';
+
 export default {
   button: {
     radius: 100,
@@ -6,6 +8,7 @@ export default {
     },
   },
   layout: {
+    screenWidth: Dimensions.get('window').width,
     gutters: {
       xxs: 5,
       xs: 10,

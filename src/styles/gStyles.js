@@ -3,7 +3,20 @@ import definitions from './definitions';
 import {Colors} from './colors';
 
 export default StyleSheet.create({
+  //general
   flexCenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  bgWhite: {
+    backgroundColor: Colors.light,
+  },
+  bgLightGrey: {
+    backgroundColor: Colors.lightBlue,
+  },
+  alignHorizontalCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  //general
   //messages begin
   floatButton: {
     justifyContent: 'center',
@@ -47,4 +60,20 @@ export default StyleSheet.create({
     marginTop: definitions.layout.gutters.sm,
   },
   //contactlist
+
+  //app
+  userNameTextHeader: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: Colors.light,
+  },
+  userLastSeenTextHeader: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: Colors.light,
+  },
+  actionIcon: {
+    padding: definitions.layout.gutters.xs,
+  },
+  //app
 });

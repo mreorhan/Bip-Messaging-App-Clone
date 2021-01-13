@@ -12,6 +12,7 @@ import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchSc
 import definitions from './src/styles/definitions';
 import gStyles from './src/styles/gStyles';
 import {ChatScreen} from './src/screens/messages/Chat';
+import {Press} from './src/components/base';
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -62,7 +63,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        mode="modal"
+        mode="card"
         screenOptions={{
           headerStyle: {
             backgroundColor: Colors.green,
@@ -94,18 +95,84 @@ const App = () => {
               </View>
             ),
             headerRight: () => (
-              <Ripple
-                rippleContainerBorderRadius={definitions.button.radius}
+              <Press
+                circle
                 style={{padding: 10}}
                 onPress={() => navigation.navigate('ContactUserSearchScreen')}>
                 <Icon name={'search'} size={24} color={Colors.light} />
-              </Ripple>
+              </Press>
             ),
           })}
         />
         <Stack.Screen name="Calls" component={HomeScreen} />
         <Stack.Screen name="Services" component={ServicesScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          options={({route, navigation}) => ({
+            title: '',
+            headerLeft: (props) => (
+              <View style={gStyles.row}>
+                <HeaderBackButton
+                  {...props}
+                  onPress={() => navigation.goBack()}
+                />
+                <View style={[gStyles.row, gStyles.alignHorizontalCenter]}>
+                  <Image
+                    source={{
+                      uri: route?.params?.photo,
+                    }}
+                    style={{
+                      height: 30,
+                      width: 30,
+                      borderRadius: 99,
+                    }}
+                  />
+                  <View
+                    style={[
+                      gStyles.column,
+                      {marginLeft: definitions.layout.gutters.xs},
+                    ]}>
+                    <Text style={gStyles.userNameTextHeader}>
+                      {route?.params?.name}
+                    </Text>
+                    <Text style={gStyles.userLastSeenTextHeader}>
+                      {route?.params?.messageDate}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            ),
+            headerRight: (props) => (
+              <View style={gStyles.row}>
+                <Press
+                  circle
+                  style={gStyles.actionIcon}
+                  onPress={() =>
+                    navigation.navigate('ContactUserSearchScreen')
+                  }>
+                  <Icon name={'videocam'} size={22} color={Colors.light} />
+                </Press>
+                <Press
+                  circle
+                  style={gStyles.actionIcon}
+                  onPress={() =>
+                    navigation.navigate('ContactUserSearchScreen')
+                  }>
+                  <Icon name={'call'} size={22} color={Colors.light} />
+                </Press>
+                <Press
+                  circle
+                  style={gStyles.actionIcon}
+                  onPress={() =>
+                    navigation.navigate('ContactUserSearchScreen')
+                  }>
+                  <Icon name={'menu'} size={22} color={Colors.light} />
+                </Press>
+              </View>
+            ),
+          })}
+        />
         <Stack.Screen
           name="ContactUserSearchScreen"
           options={{

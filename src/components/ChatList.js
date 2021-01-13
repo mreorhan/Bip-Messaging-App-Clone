@@ -1,9 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
-import Ripple from 'react-native-material-ripple';
 import Logger from '../services/loggerService';
 import definitions from '../styles/definitions';
+import {Press} from './base';
 
 const ChatList = ({chats}) => {
   const navigation = useNavigation();
@@ -11,7 +11,7 @@ const ChatList = ({chats}) => {
   const mappedList =
     chats &&
     chats.map((chat, index) => (
-      <Ripple
+      <Press
         key={index}
         rippleSequential={true}
         onPress={() => navigation.navigate('Chat', chat)}
@@ -54,7 +54,7 @@ const ChatList = ({chats}) => {
             </Text>
           </View>
         </View>
-      </Ripple>
+      </Press>
     ));
   return (
     <View style={{marginVertical: definitions.layout.gutters.xs}}>

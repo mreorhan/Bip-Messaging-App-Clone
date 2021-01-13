@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {View, StyleSheet, Dimensions, TouchableHighlight} from 'react-native';
-import Ripple from 'react-native-material-ripple';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import ChatList from '../../components/ChatList';
 
@@ -9,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {ServicesScreen} from './Services';
 import gStyles from '../../styles/gStyles';
 import definitions from '../../styles/definitions';
+import {Press} from '../../components/base';
 
 const chats = [
   {
@@ -30,10 +30,6 @@ const FirstRoute = () => <ChatList style={[styles.scene]} chats={chats} />;
 
 const SecondRoute = () => <ServicesScreen />;
 
-const initialLayout = {
-  width: Dimensions.get('window').width,
-};
-
 const MessagesScreen = (props) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -45,7 +41,7 @@ const MessagesScreen = (props) => {
     second: SecondRoute,
   });
   return (
-    <View style={gStyles.container}>
+    <View style={[gStyles.container, gStyles.bgWhite]}>
       <View
         style={{
           zIndex: 1,
@@ -53,7 +49,7 @@ const MessagesScreen = (props) => {
           bottom: definitions.layout.gutters.sm,
           right: definitions.layout.gutters.sm,
         }}>
-        <Ripple
+        <Press
           onPress={() => alert('ok')}
           rippleContainerBorderRadius={definitions.button.radius}
           style={[
@@ -64,8 +60,8 @@ const MessagesScreen = (props) => {
             },
           ]}>
           <Icon name="md-rocket-outline" size={30} color={Colors.light} />
-        </Ripple>
-        <Ripple
+        </Press>
+        <Press
           onPress={() => alert('ok')}
           rippleContainerBorderRadius={definitions.button.radius}
           style={[
@@ -80,7 +76,7 @@ const MessagesScreen = (props) => {
             size={30}
             color={Colors.light}
           />
-        </Ripple>
+        </Press>
       </View>
       <TabView
         renderTabBar={(props) => (
@@ -98,7 +94,7 @@ const MessagesScreen = (props) => {
         navigationState={{index, routes}}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        initialLayout={initialLayout}
+        initialLayout={definitions.layout.screenWidth}
       />
     </View>
   );

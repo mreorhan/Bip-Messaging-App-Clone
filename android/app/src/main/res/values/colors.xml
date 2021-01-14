@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryDark">#000000</color>
+    <color name="statusBar">#25D366</color>
+    <color name="notificationBadge">#414243</color>
+</resources>

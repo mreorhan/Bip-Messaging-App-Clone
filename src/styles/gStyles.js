@@ -15,6 +15,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  informationText: {
+    backgroundColor: Colors.lightGrey,
+    color: Colors.grey,
+    borderRadius: definitions.button.radius,
+    paddingHorizontal: definitions.layout.gutters.sm,
+    paddingVertical: definitions.layout.gutters.xs,
+  },
 
   //general
   //messages begin

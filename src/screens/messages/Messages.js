@@ -12,6 +12,7 @@ import {Press} from '../../components/base';
 
 const chats = [
   {
+    id: 1,
     message: 'naber',
     messageDate: '12:45',
     photo:
@@ -19,11 +20,12 @@ const chats = [
     name: 'Emre Orhan',
   },
   {
+    id: 2,
     message: 'naber2',
     messageDate: '12:45',
     photo:
       'https://media.creativemornings.com/uploads/user/avatar/49419/Bechtel_Profile_Square.jpg',
-    name: 'Emre Orhan',
+    name: 'Ali Parlak',
   },
 ];
 const FirstRoute = () => <ChatList style={[styles.scene]} chats={chats} />;

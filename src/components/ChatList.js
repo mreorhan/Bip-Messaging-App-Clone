@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import Logger from '../services/loggerService';
 import definitions from '../styles/definitions';
+import gStyles from '../styles/gStyles';
 import {Press} from './base';
 
 const ChatList = ({chats}) => {
@@ -20,7 +21,7 @@ const ChatList = ({chats}) => {
           paddingHorizontal: definitions.layout.gutters.xs,
           paddingVertical: definitions.layout.gutters.xxs,
         }}>
-        <View style={{display: 'flex', flexDirection: 'row'}}>
+        <View style={[gStyles.flex, gStyles.row]}>
           <View>
             <Image
               source={{

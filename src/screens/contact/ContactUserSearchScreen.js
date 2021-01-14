@@ -1,9 +1,11 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import {Information} from '../../components/base';
 import ContactList from '../../components/ContactList';
 import gStyles from '../../styles/gStyles';
 const contactList = [
   {
+    id: 1,
     message: 'naber',
     messageDate: '12:45',
     photo:
@@ -11,6 +13,7 @@ const contactList = [
     name: 'Emre Orhan',
   },
   {
+    id: 2,
     message: 'naber2',
     messageDate: '12:45',
     photo:
@@ -18,6 +21,7 @@ const contactList = [
     name: 'Emre Orhan',
   },
   {
+    id: 3,
     message: 'naber2',
     messageDate: '12:45',
     photo:
@@ -25,6 +29,7 @@ const contactList = [
     name: 'Ali Orhan',
   },
   {
+    id: 4,
     message: 'naber2',
     messageDate: '12:45',
     photo:
@@ -32,6 +37,7 @@ const contactList = [
     name: 'Seyma Şubası',
   },
   {
+    id: 5,
     message: 'naber2',
     messageDate: '12:45',
     photo:
@@ -67,10 +73,14 @@ export class ContactUserSearchScreen extends React.Component {
   }
   render() {
     const {props, state} = this;
-    const {contact} = state;
+    const {contact, searchTerm} = state;
     return (
       <View style={gStyles.flexCenter}>
-        <ContactList list={contact} />
+        {contact.length > 0 ? (
+          <ContactList list={contact} />
+        ) : (
+          <Information text={"No results found for '" + searchTerm + "'"} />
+        )}
       </View>
     );
   }

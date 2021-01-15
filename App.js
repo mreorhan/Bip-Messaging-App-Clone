@@ -13,6 +13,8 @@ import definitions from './src/styles/definitions';
 import gStyles from './src/styles/gStyles';
 import {ChatScreen} from './src/screens/messages/Chat';
 import {Press} from './src/components/base';
+import MoreScreen from './src/screens/more/More';
+import CallScreen from './src/screens/calls/Call';
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -21,189 +23,224 @@ function HomeScreen() {
   );
 }
 
-const Stack = createStackNavigator();
-
-const Tab = createBottomTabNavigator();
-
-const Root = () => {
+const BibLogo = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-
-          if (route.name === 'Messages') {
-            iconName = 'chatbox-ellipses-outline';
-          } else if (route.name === 'Calls') {
-            iconName = 'call-outline';
-          } else if (route.name === 'More') {
-            iconName = 'menu-outline';
-          }
-
-          // You can return any component that you like here!
-          return <Icon name={iconName} size={32} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: Colors.green,
-        inactiveTintColor: Colors.grey,
-        labelStyle: {paddingTop: 4, fontWeight: 'bold'},
-        keyboardHidesTabBar: true,
-        style: {height: 60},
-        tabStyle: {paddingTop: 8, paddingBottom: 6},
-      }}>
-      <Tab.Screen name="Messages" component={MessagesScreen} />
-      <Tab.Screen name="Calls" component={HomeScreen} />
-      <Tab.Screen name="More" component={HomeScreen} />
-    </Tab.Navigator>
+    <View style={{flexDirection: 'row'}}>
+      <Image
+        source={{
+          uri: 'https://i.ibb.co/zPTK7nT/white-logo.png',
+        }}
+        style={{
+          width: 48,
+          height: 36,
+          marginLeft: 15,
+        }}
+      />
+    </View>
   );
 };
 
-const App = () => {
+const screenOptions = {
+  headerStyle: {
+    backgroundColor: Colors.green,
+  },
+  headerTitleStyle: {
+    fontWeight: 'normal',
+    fontFamily: 'museo',
+    fontSize: 19,
+  },
+  headerTintColor: '#fff',
+  headerTitleAlign: 'center',
+};
+
+const AppStack = createStackNavigator();
+const AppStackScreen = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        mode="card"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: Colors.green,
-          },
-          animationEnabled: true,
-          headerTitleStyle: {
-            fontWeight: 'normal',
-          },
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-        }}>
-        <Stack.Screen
-          name="Home"
-          component={Root}
-          options={({route, navigation}) => ({
-            title: 'Messages',
-            headerLeft: () => (
-              <View style={{flexDirection: 'row'}}>
+    <AppStack.Navigator mode="card" screenOptions={screenOptions}>
+      <AppStack.Screen
+        name="Home"
+        component={MessagesScreen}
+        options={({route, navigation}) => ({
+          title: 'Messages',
+          headerLeft: () => <BibLogo />,
+          headerRight: () => (
+            <Press
+              circle
+              style={{padding: 10}}
+              onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+              <Icon name={'search'} size={24} color={Colors.light} />
+            </Press>
+          ),
+        })}
+      />
+      <AppStack.Screen name="Calls" component={HomeScreen} />
+      <AppStack.Screen name="Services" component={ServicesScreen} />
+      <AppStack.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={({route, navigation}) => ({
+          title: '',
+          headerLeft: (props) => (
+            <View style={gStyles.row}>
+              <HeaderBackButton
+                {...props}
+                onPress={() => navigation.goBack()}
+              />
+              <View style={[gStyles.row, gStyles.alignHorizontalCenter]}>
                 <Image
                   source={{
-                    uri: 'https://i.ibb.co/zPTK7nT/white-logo.png',
+                    uri: route?.params?.photo,
                   }}
                   style={{
-                    width: 48,
-                    height: 36,
-                    marginLeft: 15,
+                    height: 30,
+                    width: 30,
+                    borderRadius: 99,
                   }}
                 />
-              </View>
-            ),
-            headerRight: () => (
-              <Press
-                circle
-                style={{padding: 10}}
-                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
-                <Icon name={'search'} size={24} color={Colors.light} />
-              </Press>
-            ),
-          })}
-        />
-        <Stack.Screen name="Calls" component={HomeScreen} />
-        <Stack.Screen name="Services" component={ServicesScreen} />
-        <Stack.Screen
-          name="Chat"
-          component={ChatScreen}
-          options={({route, navigation}) => ({
-            title: '',
-            headerLeft: (props) => (
-              <View style={gStyles.row}>
-                <HeaderBackButton
-                  {...props}
-                  onPress={() => navigation.goBack()}
-                />
-                <View style={[gStyles.row, gStyles.alignHorizontalCenter]}>
-                  <Image
-                    source={{
-                      uri: route?.params?.photo,
-                    }}
-                    style={{
-                      height: 30,
-                      width: 30,
-                      borderRadius: 99,
-                    }}
-                  />
-                  <View
-                    style={[
-                      gStyles.column,
-                      {marginLeft: definitions.layout.gutters.xs},
-                    ]}>
-                    <Text style={gStyles.userNameTextHeader}>
-                      {route?.params?.name}
-                    </Text>
-                    <Text style={gStyles.userLastSeenTextHeader}>
-                      {route?.params?.messageDate}
-                    </Text>
-                  </View>
+                <View
+                  style={[
+                    gStyles.column,
+                    {marginLeft: definitions.layout.gutters.xs},
+                  ]}>
+                  <Text style={gStyles.userNameTextHeader}>
+                    {route?.params?.name}
+                  </Text>
+                  <Text style={gStyles.userLastSeenTextHeader}>
+                    {route?.params?.messageDate}
+                  </Text>
                 </View>
               </View>
-            ),
-            headerRight: (props) => (
-              <View style={gStyles.row}>
-                <Press
-                  circle
-                  style={gStyles.actionIcon}
-                  onPress={() =>
-                    navigation.navigate('ContactUserSearchScreen')
-                  }>
-                  <Icon name={'videocam'} size={22} color={Colors.light} />
-                </Press>
-                <Press
-                  circle
-                  style={gStyles.actionIcon}
-                  onPress={() =>
-                    navigation.navigate('ContactUserSearchScreen')
-                  }>
-                  <Icon name={'call'} size={22} color={Colors.light} />
-                </Press>
-                <Press
-                  circle
-                  style={gStyles.actionIcon}
-                  onPress={() =>
-                    navigation.navigate('ContactUserSearchScreen')
-                  }>
-                  <Icon name={'menu'} size={22} color={Colors.light} />
-                </Press>
-              </View>
-            ),
-          })}
-        />
-        <Stack.Screen
-          name="ContactUserSearchScreen"
-          options={{
-            title: 'Search',
-            header: (props) => (
-              <View style={gStyles.row}>
-                <HeaderBackButton
-                  {...props}
-                  onPress={() => props.navigation.goBack()}
-                />
-                <TextInput
-                  placeholder="Search..."
-                  autoFocus
-                  onChangeText={(value) =>
-                    props.navigation.setParams({headerInputText: value})
-                  }
-                  value={props.navigation.headerInputText}
-                />
-              </View>
-            ),
-          }}
-          component={ContactUserSearchScreen}
-        />
-        <Stack.Screen
-          name="More"
-          options={{title: 'More'}}
-          component={ServicesScreen}
-        />
-      </Stack.Navigator>
+            </View>
+          ),
+          headerRight: (props) => (
+            <View style={gStyles.row}>
+              <Press
+                circle
+                style={gStyles.actionIcon}
+                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                <Icon name={'videocam'} size={22} color={Colors.light} />
+              </Press>
+              <Press
+                circle
+                style={gStyles.actionIcon}
+                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                <Icon name={'call'} size={22} color={Colors.light} />
+              </Press>
+              <Press
+                circle
+                style={gStyles.actionIcon}
+                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                <Icon name={'menu'} size={22} color={Colors.light} />
+              </Press>
+            </View>
+          ),
+        })}
+      />
+      <AppStack.Screen
+        name="ContactUserSearchScreen"
+        options={{
+          title: 'Search',
+          header: (props) => (
+            <View style={gStyles.row}>
+              <HeaderBackButton
+                {...props}
+                onPress={() => props.navigation.goBack()}
+              />
+              <TextInput
+                placeholder="Search..."
+                autoFocus
+                onChangeText={(value) =>
+                  props.navigation.setParams({headerInputText: value})
+                }
+                value={props.navigation.headerInputText}
+              />
+            </View>
+          ),
+        }}
+        component={ContactUserSearchScreen}
+      />
+    </AppStack.Navigator>
+  );
+};
+
+const CallStack = createStackNavigator();
+const CallStackScreen = () => {
+  return (
+    <CallStack.Navigator mode="card" screenOptions={screenOptions}>
+      <CallStack.Screen
+        component={CallScreen}
+        name="Calls"
+        options={({route, navigation}) => ({
+          title: 'Calls',
+          headerLeft: () => <BibLogo />,
+          headerRight: () => (
+            <Press
+              circle
+              style={{padding: 10}}
+              onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+              <Icon name={'search'} size={24} color={Colors.light} />
+            </Press>
+          ),
+        })}
+      />
+    </CallStack.Navigator>
+  );
+};
+
+const MoreStack = createStackNavigator();
+const MoreStackScreen = () => {
+  return (
+    <MoreStack.Navigator mode="card" screenOptions={screenOptions}>
+      <MoreStack.Screen
+        component={MoreScreen}
+        name="More"
+        options={{
+          title: 'More',
+        }}
+      />
+    </MoreStack.Navigator>
+  );
+};
+
+const Tab = createBottomTabNavigator();
+const Root = () => {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            let iconSize = 24;
+
+            if (route.name === 'Messages') {
+              iconName = 'chatbox-ellipses-outline';
+            } else if (route.name === 'Calls') {
+              iconName = 'call-outline';
+            } else if (route.name === 'More') {
+              iconSize = 36;
+              iconName = 'menu-outline';
+            }
+            return <Icon name={iconName} size={iconSize} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: Colors.green,
+          inactiveTintColor: Colors.grey,
+          labelStyle: {
+            paddingTop: 4,
+            fontFamily: 'moreo_bold',
+            fontWeight: 'normal',
+          },
+          keyboardHidesTabBar: true,
+          style: {height: 60},
+          tabStyle: {paddingTop: 8, paddingBottom: 6},
+        }}>
+        <Tab.Screen name="Messages" component={AppStackScreen} />
+        <Tab.Screen name="Calls" component={CallStackScreen} />
+        <Tab.Screen name="More" component={MoreStackScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
 
-export default App;
+export default Root;

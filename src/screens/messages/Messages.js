@@ -52,7 +52,7 @@ const MessagesScreen = (props) => {
           right: definitions.layout.gutters.sm,
         }}>
         <Press
-          rippleContainerBorderRadius={definitions.button.radius}
+          circle
           style={[
             gStyles.floatButton,
             {
@@ -64,7 +64,7 @@ const MessagesScreen = (props) => {
         </Press>
         {index == 0 ? (
           <Press
-            rippleContainerBorderRadius={definitions.button.radius}
+            circle
             style={[
               gStyles.floatButton,
               {
@@ -80,7 +80,7 @@ const MessagesScreen = (props) => {
           </Press>
         ) : (
           <Press
-            rippleContainerBorderRadius={definitions.button.radius}
+            circle
             style={[
               gStyles.floatButton,
               {

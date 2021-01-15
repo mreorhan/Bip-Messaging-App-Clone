@@ -52,7 +52,7 @@ const CallScreen = (props) => {
           right: definitions.layout.gutters.sm,
         }}>
         <Press
-          rippleContainerBorderRadius={definitions.button.radius}
+          circle
           style={[
             gStyles.floatButton,
             {
@@ -63,7 +63,7 @@ const CallScreen = (props) => {
           <Icon name="md-rocket-outline" size={30} color={Colors.light} />
         </Press>
         <Press
-          rippleContainerBorderRadius={definitions.button.radius}
+          circle
           style={[
             gStyles.floatButton,
             {
@@ -75,7 +75,7 @@ const CallScreen = (props) => {
           <Icon name="ios-keypad-outline" size={30} color={Colors.green} />
         </Press>
         <Press
-          rippleContainerBorderRadius={definitions.button.radius}
+          circle
           style={[
             gStyles.floatButton,
             {

@@ -18,7 +18,8 @@ import gStyles from './src/styles/gStyles';
 import {ChatScreen} from './src/screens/messages/Chat';
 import {Press} from './src/components/base';
 import MoreScreen from './src/screens/more/More';
-import CallScreen from './src/screens/calls/RecentCalls';
+import RecentCallScreen from './src/screens/calls/RecentCalls';
+import CallUserScreen from './src/screens/calls/CallUser';
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -166,7 +167,7 @@ const ChatStackScreen = () => {
               <Press
                 circle
                 style={gStyles.actionIcon}
-                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                onPress={() => navigation.navigate('CallUser')}>
                 <Icon name={'call'} size={22} color={Colors.light} />
               </Press>
               <Press
@@ -188,7 +189,7 @@ const CallStackScreen = () => {
   return (
     <CallStack.Navigator mode="card" screenOptions={screenOptions}>
       <CallStack.Screen
-        component={CallScreen}
+        component={RecentCallScreen}
         name="Calls"
         options={({route, navigation}) => ({
           title: 'Calls',
@@ -271,6 +272,7 @@ const main = () => {
         <RootStack.Screen name="Messages" component={Root} />
         <RootStack.Screen name="ChatStack" component={ChatStackScreen} />
         <RootStack.Screen name="More" component={MoreStackScreen} />
+        <RootStack.Screen name="CallUser" component={CallUserScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

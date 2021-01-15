@@ -9,19 +9,42 @@ export default StyleSheet.create({
     backgroundColor: Colors.light,
   },
   bgLightGrey: {
+    backgroundColor: Colors.lightGrey,
+  },
+  bgLightBlue: {
     backgroundColor: Colors.lightBlue,
   },
   alignHorizontalCenter: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  informationText: {
-    backgroundColor: Colors.lightGrey,
-    color: Colors.grey,
-    borderRadius: definitions.button.radius,
-    paddingHorizontal: definitions.layout.gutters.sm,
-    paddingVertical: definitions.layout.gutters.xs,
+  alignRight: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
+  overlayButton: {
+    padding: definitions.layout.gutters.xxs,
+    paddingHorizontal: definitions.layout.gutters.sm,
+    borderRadius: definitions.button.radius,
+    backgroundColor: Colors.lightestGrey,
+    textAlign: 'center',
+    elevation: 3,
+    shadowColor: Colors.grey,
+    shadowOffset: {height: 1},
+  },
+
+  profileInfo: {
+    flex: 1,
+    paddingLeft: 15,
+    alignItems: 'flex-start',
+    alignSelf: 'center',
+  },
+  messageSentTime: {
+    paddingRight: 5,
+    paddingTop: 10,
+    alignSelf: 'flex-start',
+  },
+  messageTimeText: {fontSize: 11, color: 'gray'},
 
   //general
   //messages begin

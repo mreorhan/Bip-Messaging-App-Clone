@@ -8,5 +8,6 @@ export default StyleSheet.create({
     borderBottomColor: Colors.lightGrey,
     borderBottomWidth: 0.5,
     padding: definitions.layout.gutters.sm,
+    marginBottom: definitions.layout.gutters.xs,
   },
 });

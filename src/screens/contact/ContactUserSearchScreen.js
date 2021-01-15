@@ -75,11 +75,13 @@ export class ContactUserSearchScreen extends React.Component {
     const {props, state} = this;
     const {contact, searchTerm} = state;
     return (
-      <View style={gStyles.flexCenter}>
+      <View style={[gStyles.flexCenter, gStyles.bgWhite]}>
         {contact.length > 0 ? (
           <ContactList list={contact} />
         ) : (
-          <Information text={"No results found for '" + searchTerm + "'"} />
+          <Information
+            text={"No results found for '" + searchTerm.toString() + "'"}
+          />
         )}
       </View>
     );

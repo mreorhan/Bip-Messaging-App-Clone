@@ -16,7 +16,6 @@ const ChatList = ({chats}) => {
         key={index}
         rippleSequential={true}
         onPress={() => navigation.navigate('Chat', chat)}
-        onLongPress={() => alert('ok')}
         style={{
           paddingHorizontal: definitions.layout.gutters.xs,
           paddingVertical: definitions.layout.gutters.xxs,

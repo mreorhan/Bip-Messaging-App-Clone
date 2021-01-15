@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {View, StyleSheet, Dimensions, TouchableHighlight} from 'react-native';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, SceneMap, TabBar, TabBarItem} from 'react-native-tab-view';
 import ChatList from '../../components/ChatList';
 
 import {Colors} from '../../styles/colors';
@@ -52,7 +52,6 @@ const MessagesScreen = (props) => {
           right: definitions.layout.gutters.sm,
         }}>
         <Press
-          onPress={() => alert('ok')}
           rippleContainerBorderRadius={definitions.button.radius}
           style={[
             gStyles.floatButton,
@@ -63,34 +62,57 @@ const MessagesScreen = (props) => {
           ]}>
           <Icon name="md-rocket-outline" size={30} color={Colors.light} />
         </Press>
-        <Press
-          onPress={() => alert('ok')}
-          rippleContainerBorderRadius={definitions.button.radius}
-          style={[
-            gStyles.floatButton,
-            {
-              backgroundColor: Colors.green,
-              borderRadius: 100,
-            },
-          ]}>
-          <Icon
-            name="chatbox-ellipses-outline"
-            size={30}
-            color={Colors.light}
-          />
-        </Press>
+        {index == 0 ? (
+          <Press
+            rippleContainerBorderRadius={definitions.button.radius}
+            style={[
+              gStyles.floatButton,
+              {
+                backgroundColor: Colors.green,
+                borderRadius: 100,
+              },
+            ]}>
+            <Icon
+              name="chatbox-ellipses-outline"
+              size={30}
+              color={Colors.light}
+            />
+          </Press>
+        ) : (
+          <Press
+            rippleContainerBorderRadius={definitions.button.radius}
+            style={[
+              gStyles.floatButton,
+              {
+                backgroundColor: Colors.green,
+                borderRadius: 100,
+              },
+            ]}>
+            <Icon
+              name="navigate-circle-outline"
+              size={30}
+              color={Colors.light}
+            />
+          </Press>
+        )}
       </View>
       <TabView
         renderTabBar={(props) => (
           <TabBar
             {...props}
             activeColor={Colors.green}
-            inactiveColor={Colors.grey}
+            inactiveColor={Colors.green}
             indicatorStyle={{
               backgroundColor: Colors.green,
               shadowOpacity: null,
             }}
             style={gStyles.tabBar}
+            labelStyle={{
+              fontSize: 13,
+              fontWeight: 'bold',
+              letterSpacing: 1,
+              paddingTop: 2,
+            }}
           />
         )}
         navigationState={{index, routes}}

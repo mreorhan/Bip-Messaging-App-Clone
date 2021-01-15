@@ -2,7 +2,7 @@
 
 This is Bip Messaging App Clone
 
-![ScreenShot](https://i.ibb.co/G9kcCrZ/Artboard-1.png) <!-- .element height="30%" width="auto" -->
+![ScreenShot](https://i.ibb.co/gJ5HmWH/splash.png) <!-- .element height="30%" width="auto" -->
 
 ## Quick start
 

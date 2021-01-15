@@ -18,7 +18,7 @@ import gStyles from './src/styles/gStyles';
 import {ChatScreen} from './src/screens/messages/Chat';
 import {Press} from './src/components/base';
 import MoreScreen from './src/screens/more/More';
-import CallScreen from './src/screens/calls/Call';
+import CallScreen from './src/screens/calls/RecentCalls';
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -84,7 +84,15 @@ const AppStackScreen = () => {
         options={{
           title: 'Search',
           header: (props) => (
-            <View style={gStyles.row}>
+            <View
+              style={[
+                gStyles.row,
+                {
+                  backgroundColor: Colors.light,
+                  borderBottomColor: Colors.lightGrey,
+                  borderBottomWidth: 1,
+                },
+              ]}>
               <HeaderBackButton
                 {...props}
                 onPress={() => props.navigation.goBack()}

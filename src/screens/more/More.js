@@ -99,7 +99,7 @@ export default class extends React.Component {
                   fontWeight: 'normal',
                   letterSpacing: 0.2,
                 }}>
-                aa Customize
+                Customize
               </Text>
             </BorderlessButton>
           </View>

@@ -15,7 +15,12 @@ const ChatList = ({chats}) => {
       <Press
         key={index}
         rippleSequential={true}
-        onPress={() => navigation.navigate('Chat', chat)}
+        onPress={() =>
+          navigation.navigate('ChatStack', {
+            screen: 'Chat',
+            params: chat,
+          })
+        }
         style={{
           paddingHorizontal: definitions.layout.gutters.xs,
           paddingVertical: definitions.layout.gutters.xxs,

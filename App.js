@@ -1,6 +1,10 @@
 import * as React from 'react';
-import {View, Text, Image, TextInput} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {View, Text, Image, TextInput, useColorScheme} from 'react-native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -76,6 +80,37 @@ const AppStackScreen = () => {
       <AppStack.Screen name="Calls" component={HomeScreen} />
       <AppStack.Screen name="Services" component={ServicesScreen} />
       <AppStack.Screen
+        name="ContactUserSearchScreen"
+        options={{
+          title: 'Search',
+          header: (props) => (
+            <View style={gStyles.row}>
+              <HeaderBackButton
+                {...props}
+                onPress={() => props.navigation.goBack()}
+              />
+              <TextInput
+                placeholder="Search..."
+                autoFocus
+                onChangeText={(value) =>
+                  props.navigation.setParams({headerInputText: value})
+                }
+                value={props.navigation.headerInputText}
+              />
+            </View>
+          ),
+        }}
+        component={ContactUserSearchScreen}
+      />
+    </AppStack.Navigator>
+  );
+};
+
+const ChatStack = createStackNavigator();
+const ChatStackScreen = () => {
+  return (
+    <ChatStack.Navigator mode="card" screenOptions={screenOptions}>
+      <ChatStack.Screen
         name="Chat"
         component={ChatScreen}
         options={({route, navigation}) => ({
@@ -136,30 +171,7 @@ const AppStackScreen = () => {
           ),
         })}
       />
-      <AppStack.Screen
-        name="ContactUserSearchScreen"
-        options={{
-          title: 'Search',
-          header: (props) => (
-            <View style={gStyles.row}>
-              <HeaderBackButton
-                {...props}
-                onPress={() => props.navigation.goBack()}
-              />
-              <TextInput
-                placeholder="Search..."
-                autoFocus
-                onChangeText={(value) =>
-                  props.navigation.setParams({headerInputText: value})
-                }
-                value={props.navigation.headerInputText}
-              />
-            </View>
-          ),
-        }}
-        component={ContactUserSearchScreen}
-      />
-    </AppStack.Navigator>
+    </ChatStack.Navigator>
   );
 };
 
@@ -195,6 +207,7 @@ const MoreStackScreen = () => {
         component={MoreScreen}
         name="More"
         options={{
+          headerLeft: () => <BibLogo />,
           title: 'More',
         }}
       />
@@ -205,42 +218,54 @@ const MoreStackScreen = () => {
 const Tab = createBottomTabNavigator();
 const Root = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName;
-            let iconSize = 24;
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          let iconSize = 24;
 
-            if (route.name === 'Messages') {
-              iconName = 'chatbox-ellipses-outline';
-            } else if (route.name === 'Calls') {
-              iconName = 'call-outline';
-            } else if (route.name === 'More') {
-              iconSize = 36;
-              iconName = 'menu-outline';
-            }
-            return <Icon name={iconName} size={iconSize} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: Colors.green,
-          inactiveTintColor: Colors.grey,
-          labelStyle: {
-            paddingTop: 4,
-            fontFamily: 'moreo_bold',
-            fontWeight: 'normal',
-          },
-          keyboardHidesTabBar: true,
-          style: {height: 60},
-          tabStyle: {paddingTop: 8, paddingBottom: 6},
-        }}>
-        <Tab.Screen name="Messages" component={AppStackScreen} />
-        <Tab.Screen name="Calls" component={CallStackScreen} />
-        <Tab.Screen name="More" component={MoreStackScreen} />
-      </Tab.Navigator>
+          if (route.name === 'Messages') {
+            iconName = 'chatbox-ellipses-outline';
+          } else if (route.name === 'Calls') {
+            iconName = 'call-outline';
+          } else if (route.name === 'More') {
+            iconSize = 36;
+            iconName = 'menu-outline';
+          }
+          return <Icon name={iconName} size={iconSize} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: Colors.green,
+        inactiveTintColor: Colors.grey,
+        labelStyle: {
+          paddingTop: 4,
+          fontFamily: 'moreo_bold',
+          fontWeight: 'normal',
+        },
+        keyboardHidesTabBar: true,
+        style: {height: 60},
+        tabStyle: {paddingTop: 8, paddingBottom: 6},
+      }}>
+      <Tab.Screen name="Messages" component={AppStackScreen} />
+      <Tab.Screen name="Calls" component={CallStackScreen} />
+      <Tab.Screen name="More" component={MoreStackScreen} />
+    </Tab.Navigator>
+  );
+};
+
+const RootStack = createStackNavigator();
+const main = () => {
+  const scheme = useColorScheme();
+  return (
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <RootStack.Navigator headerMode="none">
+        <RootStack.Screen name="Messages" component={Root} />
+        <RootStack.Screen name="ChatStack" component={ChatStackScreen} />
+        <RootStack.Screen name="More" component={MoreStackScreen} />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default Root;
+export default main;

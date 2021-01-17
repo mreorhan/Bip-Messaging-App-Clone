@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MessagesScreen from './src/screens/messages/Messages';
 import {ServicesScreen} from './src/screens/messages/Services';
 import {Colors, NightColorTheme} from './src/styles/colors';
-import Ripple from 'react-native-material-ripple';
 import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchScreen';
 import definitions from './src/styles/definitions';
 import gStyles from './src/styles/gStyles';

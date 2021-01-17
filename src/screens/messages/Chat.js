@@ -15,6 +15,7 @@ import {useEffect} from 'react';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import Logger from '../../services/loggerService';
 import {useRef} from 'react';
+import moment from 'moment';
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
 //animation start
@@ -102,10 +103,15 @@ export const ChatScreen = (props) => {
     setMessage(newMessage);
   };
 
+  const scrollToEnd = () => {
+    scrollViewRef.current.scrollToEnd({animated: true});
+  };
+
   const navigation = useNavigation();
   const route = useRoute();
   const theme = useTheme();
   const scrollViewRef = useRef();
+
   return (
     <View
       style={[gStyles.flexCenter, {backgroundColor: theme.colors.background}]}>
@@ -113,27 +119,23 @@ export const ChatScreen = (props) => {
         contentContainerStyle={chatStyles.scrollViewChatContainer}
         style={chatStyles.scrollViewChat}
         ref={scrollViewRef}
-        onContentSizeChange={() =>
-          scrollViewRef.current.scrollToEnd({animated: true})
-        }>
+        onContentSizeChange={() => scrollToEnd()}>
         {messageHistory.map((message, index) => {
-          if (message.id === route.params.id) {
-            return (
-              <View
-                key={index}
-                style={[chatStyles.messageBox, chatStyles.messageBySender]}>
-                <Text style={gStyles.defFont}>{message.content}</Text>
-              </View>
-            );
-          } else {
-            return (
-              <View
-                key={index}
-                style={[chatStyles.messageBox, chatStyles.messageByReceiver]}>
-                <Text style={gStyles.defFont}>{message.content}</Text>
-              </View>
-            );
-          }
+          return (
+            <View
+              key={index}
+              style={[
+                chatStyles.messageBox,
+                message.id === route.params.id
+                  ? chatStyles.messageBySender
+                  : chatStyles.messageByReceiver,
+              ]}>
+              <Text style={gStyles.defFont}>{message.content}</Text>
+              <Text style={[gStyles.defFont, chatStyles.timeText]}>
+                {moment(message.sendDate).format('LT')}
+              </Text>
+            </View>
+          );
         })}
       </ScrollView>
       <View
@@ -159,6 +161,7 @@ export const ChatScreen = (props) => {
               placeholderTextColor={theme.colors.text}
               onChangeText={(message) => setMessage(message)}
               onFocus={() => setShowEmoticons(false)}
+              onResponderStart={() => scrollToEnd()}
               value={message}
               style={[
                 chatStyles.input,

@@ -59,6 +59,11 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     alignSelf: 'flex-start',
   },
+  timeText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
+  },
   messageBox: {
     paddingHorizontal: definitions.layout.gutters.xs,
     paddingVertical: definitions.layout.gutters.xxs,

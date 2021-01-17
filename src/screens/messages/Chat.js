@@ -148,6 +148,7 @@ export const ChatScreen = (props) => {
               blurOnSubmit={false}
               onSubmitEditing={() => sendMessage()}
               placeholder="Type message"
+              placeholderTextColor={theme.colors.text}
               onChangeText={(message) => setMessage(message)}
               onFocus={() => setShowEmoticons(false)}
               value={message}
@@ -155,6 +156,7 @@ export const ChatScreen = (props) => {
                 chatStyles.input,
                 {
                   backgroundColor: theme.colors.input,
+                  color: theme.colors.text,
                   width: interpolateBar,
                 },
               ]}

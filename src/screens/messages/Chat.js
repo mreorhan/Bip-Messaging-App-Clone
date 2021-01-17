@@ -14,6 +14,7 @@ import {useState} from 'react';
 import {useEffect} from 'react';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import Logger from '../../services/loggerService';
+import {useRef} from 'react';
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
 //animation start
@@ -104,12 +105,17 @@ export const ChatScreen = (props) => {
   const navigation = useNavigation();
   const route = useRoute();
   const theme = useTheme();
+  const scrollViewRef = useRef();
   return (
     <View
       style={[gStyles.flexCenter, {backgroundColor: theme.colors.background}]}>
       <ScrollView
         contentContainerStyle={chatStyles.scrollViewChatContainer}
-        style={chatStyles.scrollViewChat}>
+        style={chatStyles.scrollViewChat}
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current.scrollToEnd({animated: true})
+        }>
         {messageHistory.map((message, index) => {
           if (message.id === route.params.id) {
             return (

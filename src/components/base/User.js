@@ -2,8 +2,10 @@ import {View, Text, Image} from 'react-native';
 import React from 'react';
 import definitions from '../../styles/definitions';
 import gStyles from '../../styles/gStyles';
+import {useTheme} from '@react-navigation/native';
 
 export default ({user, photoSize}) => {
+  const theme = useTheme();
   return (
     <View style={[gStyles.flex, gStyles.row]}>
       <View>
@@ -19,12 +21,16 @@ export default ({user, photoSize}) => {
         />
       </View>
       <View style={gStyles.profileInfo}>
-        <Text>{user.name}</Text>
-        {user.message && <Text>{user.message}</Text>}
+        <Text style={{color: theme.colors.text}}>{user.name}</Text>
+        {user.message && (
+          <Text style={{color: theme.colors.text}}>{user.message}</Text>
+        )}
       </View>
       {user.messageDate && (
         <View style={gStyles.messageSentTime}>
-          <Text style={gStyles.messageTimeText}>{user.messageDate}</Text>
+          <Text style={[gStyles.messageTimeText, {color: theme.colors.text}]}>
+            {user.messageDate}
+          </Text>
         </View>
       )}
     </View>

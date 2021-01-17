@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,33 +25,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
-export class ServicesScreen extends React.Component {
-  render() {
-    return (
-      <View
-        style={[
-          gStyles.flexCenter,
-          {
-            width: '80%',
-            marginTop: -50,
-            alignSelf: 'center',
-          },
-        ]}>
-        <Text style={styles.mainText}>Let's Get BiB'N!</Text>
-        <View style={gStyles.row}>
-          <Text style={styles.subText}>
-            {'To discover new\n services, tap'}
-            <View style={styles.navigateIcon}>
-              <Icon
-                name={'md-navigate-circle-outline'}
-                size={28}
-                color={Colors.green}
-              />
-            </View>
-            icon and select a service.
-          </Text>
-        </View>
+export const ServicesScreen = () => {
+  const theme = useTheme();
+  return (
+    <View
+      style={[
+        gStyles.flexCenter,
+        {
+          width: '80%',
+          marginTop: -50,
+          alignSelf: 'center',
+        },
+      ]}>
+      <Text style={styles.mainText}>Let's Get BiB'N!</Text>
+      <View style={gStyles.row}>
+        <Text style={[styles.subText, {color: theme.colors.text}]}>
+          {'To discover new\n services, tap'}
+          <View style={styles.navigateIcon}>
+            <Icon
+              name={'md-navigate-circle-outline'}
+              size={28}
+              color={Colors.green}
+            />
+          </View>
+          icon and select a service.
+        </Text>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};

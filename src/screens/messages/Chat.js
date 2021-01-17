@@ -10,200 +10,199 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Colors} from '../../styles/colors';
 import definitions from '../../styles/definitions';
 import {isEmoji} from '../../helpers/functions';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
+import Logger from '../../services/loggerService';
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 
-const messageHistory = [
-  {
-    id: 1,
-    content: 'naber?',
-    sendDate: new Date(),
-    messageType: 'text',
-  },
-  {
-    id: 2,
-    content: 'iidir senden?',
-    sendDate: new Date(),
-    messageType: 'text',
-  },
-];
-
-export class ChatScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: '',
-      showEmoticons: false,
-      messageHistory: messageHistory,
-    };
-  }
+export const ChatScreen = (props) => {
+  const [message, _setMessage] = useState('');
+  const setMessage = (data) => {
+    if (isLoaded === false) {
+      if (data.length >= 1) {
+        setIsLoaded(true);
+      } else {
+        setIsLoaded(false);
+      }
+    }
+    new Logger.log(data);
+    _setMessage(data);
+  };
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showEmoticons, setShowEmoticons] = useState(false);
+  const [messageHistory, setMessageHistory] = useState([
+    {
+      id: 1,
+      content: 'naber?',
+      sendDate: new Date(),
+      messageType: 'text',
+    },
+    {
+      id: 2,
+      content: 'iidir senden?',
+      sendDate: new Date(),
+      messageType: 'text',
+    },
+  ]);
   //animation start
   animVal = new Animated.Value(0);
 
-  interpolateIcon = this.animVal.interpolate({
+  interpolateIcon = animVal.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1],
   });
-  interpolateBar = this.animVal.interpolate({
+  interpolateBar = animVal.interpolate({
     inputRange: [0, 1],
     outputRange: [
       parseInt(definitions.layout.screenWidth - 130),
       parseInt(definitions.layout.screenWidth - 110),
     ],
   });
-  animatedTransition = Animated.spring(this.animVal, {
+  animatedTransition = Animated.spring(animVal, {
     toValue: 1,
     useNativeDriver: false,
   });
-  animatedTransitionStop = Animated.spring(this.animVal, {
+  animatedTransitionStop = Animated.spring(animVal, {
     toValue: 0,
     useNativeDriver: false,
   });
   //animation end
 
-  componentDidMount() {
-    const {params} = this.props.route;
-    // LogBox.ignoreAllLogs(true);
-
-    // this.props.navigation.setOptions({title: params.name});
-    // this.props.navigation.setParams({user: params});
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {message} = this.state;
-    let difference = isEmoji(message) ? 2 : 1;
-    if (
-      prevState.message !== message &&
-      message.length > 0 &&
-      !(prevState.message.length < message.length - difference)
-    ) {
-      this.animatedTransition.start();
-    } else {
-      this.animatedTransition.stop();
-      this.animatedTransitionStop.start();
+  useEffect(() => {
+    if (message.length === 1) {
+      animatedTransition.start();
+    } else if (!isLoaded) {
+      animatedTransition.stop();
+      animatedTransitionStop.start();
     }
-  }
+  }, [message]);
 
-  sendMessage = () => {
-    const {messageHistory, message} = this.state;
-    messageHistory.push({
-      id: this.props.route.params.id,
-      content: message,
-      sendDate: new Date(),
-      messageType: 'text',
-    });
-    this.setState({messageHistory, message: ''});
+  sendMessage = (val) => {
+    setMessageHistory([
+      ...messageHistory,
+      {
+        id: props.route.params.id,
+        content: val,
+        sendDate: new Date(),
+        messageType: 'text',
+      },
+    ]);
+    setIsLoaded(false);
+    setMessage('');
   };
 
   addEmojiToText = (val) => {
     debugger;
-    const {message} = this.state;
-    debugger;
     const newMessage = message ? message.concat(val.code) : val.code;
-    this.setState({message: newMessage});
+    setMessage(newMessage);
   };
 
-  render() {
-    const {navigation, route} = this.props;
-    const {message, showEmoticons, messageHistory} = this.state;
-    return (
-      <View style={[gStyles.flexCenter, gStyles.bgLightBlue]}>
-        <ScrollView style={chatStyles.scrollViewChat}>
-          {messageHistory.map((message, index) => {
-            if (message.id === route.params.id) {
-              return (
-                <View
-                  key={index}
-                  style={[chatStyles.messageBox, chatStyles.messageBySender]}>
-                  <Text>{message.content}</Text>
-                </View>
-              );
-            } else {
-              return (
-                <View
-                  key={index}
-                  style={[chatStyles.messageBox, chatStyles.messageByReceiver]}>
-                  <Text>{message.content}</Text>
-                </View>
-              );
-            }
-          })}
-        </ScrollView>
-        <View
-          style={[
-            chatStyles.bottomAreaContainer,
-            showEmoticons ? chatStyles.bottomAreaEmoji : '',
-          ]}>
-          <View style={gStyles.row}>
+  const navigation = useNavigation();
+  const route = useRoute();
+  const theme = useTheme();
+  return (
+    <View
+      style={[gStyles.flexCenter, {backgroundColor: theme.colors.background}]}>
+      <ScrollView style={chatStyles.scrollViewChat}>
+        <Text>Val:{JSON.stringify(isLoaded)}</Text>
+        {messageHistory.map((message, index) => {
+          if (message.id === route.params.id) {
+            return (
+              <View
+                key={index}
+                style={[chatStyles.messageBox, chatStyles.messageBySender]}>
+                <Text>{message.content}</Text>
+              </View>
+            );
+          } else {
+            return (
+              <View
+                key={index}
+                style={[chatStyles.messageBox, chatStyles.messageByReceiver]}>
+                <Text>{message.content}</Text>
+              </View>
+            );
+          }
+        })}
+      </ScrollView>
+      <View
+        style={[
+          chatStyles.bottomAreaContainer,
+          showEmoticons ? chatStyles.bottomAreaEmoji : '',
+          {backgroundColor: theme.colors.notification},
+        ]}>
+        <View style={gStyles.row}>
+          <Press
+            circle
+            style={gStyles.actionIcon}
+            onPress={() => (
+              setShowEmoticons(showEmoticons ? false : true), Keyboard.dismiss()
+            )}>
+            <Icon name={'happy'} size={22} color={Colors.green} />
+          </Press>
+          <View>
+            <AnimatedInput
+              blurOnSubmit={false}
+              onSubmitEditing={() => sendMessage(message)}
+              placeholder="Type message"
+              onChangeText={(message) => setMessage(message)}
+              onFocus={() => setShowEmoticons(false)}
+              value={message}
+              style={[
+                chatStyles.input,
+                {
+                  backgroundColor: theme.colors.input,
+                  width: interpolateBar,
+                },
+              ]}
+            />
             <Press
               circle
-              style={gStyles.actionIcon}
-              onPress={() => (
-                this.setState({showEmoticons: showEmoticons ? false : true}),
-                Keyboard.dismiss()
-              )}>
-              <Icon name={'happy'} size={22} color={Colors.green} />
+              style={[gStyles.actionIcon, chatStyles.attach]}
+              onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+              <Icon name={'attach'} size={22} color={Colors.green} />
             </Press>
-            <View>
-              <AnimatedInput
-                blurOnSubmit={false}
-                onSubmitEditing={() => this.sendMessage()}
-                placeholder="Type message"
-                onChangeText={(message) => this.setState({message})}
-                onFocus={() => this.setState({showEmoticons: false})}
-                value={message}
-                style={[chatStyles.input, {width: this.interpolateBar}]}
-              />
+          </View>
+          {message.length <= 0 ? (
+            <View style={gStyles.row}>
               <Press
                 circle
-                style={[gStyles.actionIcon, chatStyles.attach]}
+                style={gStyles.actionIcon}
                 onPress={() => navigation.navigate('ContactUserSearchScreen')}>
-                <Icon name={'attach'} size={22} color={Colors.green} />
+                <Icon name={'camera'} size={22} color={Colors.green} />
+              </Press>
+              <Press
+                circle
+                style={gStyles.actionIcon}
+                onPress={() => navigation.navigate('ContactUserSearchScreen')}>
+                <Icon name={'mic'} size={22} color={Colors.green} />
               </Press>
             </View>
-            {message.length <= 0 ? (
-              <View style={gStyles.row}>
-                <Press
-                  circle
-                  style={gStyles.actionIcon}
-                  onPress={() =>
-                    navigation.navigate('ContactUserSearchScreen')
-                  }>
-                  <Icon name={'camera'} size={22} color={Colors.green} />
-                </Press>
-                <Press
-                  circle
-                  style={gStyles.actionIcon}
-                  onPress={() =>
-                    navigation.navigate('ContactUserSearchScreen')
-                  }>
-                  <Icon name={'mic'} size={22} color={Colors.green} />
-                </Press>
-              </View>
-            ) : (
-              <Animated.View
-                style={[
-                  chatStyles.sendButtonContainer,
-                  {
-                    transform: [{scale: this.interpolateIcon}],
-                  },
-                ]}>
-                <Press
-                  circle
-                  style={[chatStyles.sendButton]}
-                  onPress={() => this.sendMessage()}>
-                  <Icon name={'send'} size={22} color={Colors.light} />
-                </Press>
-              </Animated.View>
-            )}
-          </View>
+          ) : (
+            <Animated.View
+              style={[
+                chatStyles.sendButtonContainer,
+                {
+                  transform: [{scale: interpolateIcon}],
+                },
+              ]}>
+              <Press
+                circle
+                style={[chatStyles.sendButton]}
+                onPress={() => sendMessage()}>
+                <Icon name={'send'} size={22} color={Colors.light} />
+              </Press>
+            </Animated.View>
+          )}
         </View>
-        <EmojiBoard
-          emojiSize={30}
-          hideBackSpace={false}
-          showBoard={showEmoticons}
-          onClick={(val) => this.addEmojiToText(val)}
-        />
       </View>
-    );
-  }
-}
+      <EmojiBoard
+        emojiSize={30}
+        hideBackSpace={false}
+        showBoard={showEmoticons}
+        onClick={(val) => addEmojiToText(val)}
+      />
+    </View>
+  );
+};

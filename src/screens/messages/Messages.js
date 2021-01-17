@@ -9,6 +9,7 @@ import {ServicesScreen} from './Services';
 import gStyles from '../../styles/gStyles';
 import definitions from '../../styles/definitions';
 import {Press} from '../../components/base';
+import {useTheme} from '@react-navigation/native';
 
 const chats = [
   {
@@ -33,6 +34,7 @@ const FirstRoute = () => <ChatList style={[styles.scene]} chats={chats} />;
 const SecondRoute = () => <ServicesScreen />;
 
 const MessagesScreen = (props) => {
+  const theme = useTheme();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'first', title: 'Chats'},
@@ -43,7 +45,7 @@ const MessagesScreen = (props) => {
     second: SecondRoute,
   });
   return (
-    <View style={[gStyles.container, gStyles.bgWhite]}>
+    <View style={[gStyles.container]}>
       <View
         style={{
           zIndex: 1,

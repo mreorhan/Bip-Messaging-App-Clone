@@ -40,7 +40,7 @@ const NightColorTheme = {
   colors: {
     primary: '#fff',
     background: '#121212',
-    card: '#121212',
+    card: '#121212', // header
     text: '#fff',
     border: '#232323',
     notification: '#121212',

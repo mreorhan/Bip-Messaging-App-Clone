@@ -7,6 +7,11 @@ export default StyleSheet.create({
     flex: 1,
     width: '100%',
     padding: definitions.layout.gutters.sm,
+    backgroundColor: 'red',
+    height: definitions.layout.screenHeight - 680,
+  },
+  scrollViewChatContainer: {
+    paddingBottom: 80,
   },
   bottomAreaContainer: {
     position: 'absolute',

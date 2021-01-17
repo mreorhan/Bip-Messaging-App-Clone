@@ -107,7 +107,9 @@ export const ChatScreen = (props) => {
   return (
     <View
       style={[gStyles.flexCenter, {backgroundColor: theme.colors.background}]}>
-      <ScrollView style={chatStyles.scrollViewChat}>
+      <ScrollView
+        contentContainerStyle={chatStyles.scrollViewChatContainer}
+        style={chatStyles.scrollViewChat}>
         {messageHistory.map((message, index) => {
           if (message.id === route.params.id) {
             return (

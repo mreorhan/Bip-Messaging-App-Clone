@@ -4,6 +4,9 @@ import {Colors} from './colors';
 
 export default StyleSheet.create({
   //general
+  defFont: {
+    fontFamily: 'museo_regular',
+  },
   flexCenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
   bgWhite: {
     backgroundColor: Colors.light,

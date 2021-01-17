@@ -8,6 +8,9 @@ export default StyleSheet.create({
     width: '100%',
     padding: definitions.layout.gutters.sm,
   },
+  scrollViewChatContainer: {
+    paddingBottom: 80,
+  },
   bottomAreaContainer: {
     position: 'absolute',
     bottom: 0,
@@ -55,6 +58,11 @@ export default StyleSheet.create({
     alignContent: 'flex-start',
     alignItems: 'flex-start',
     alignSelf: 'flex-start',
+  },
+  timeText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
   },
   messageBox: {
     paddingHorizontal: definitions.layout.gutters.xs,

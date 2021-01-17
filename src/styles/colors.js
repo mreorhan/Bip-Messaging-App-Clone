@@ -27,7 +27,7 @@ const NativeColorTheme = {
     background: Colors.light,
     card: Colors.green,
     text: '#fff',
-    border: '#fff',
+    border: '#000',
     notification: '#121212',
     backgroundLight: Colors.lightGrey,
     backgroundChat: Colors.lightBlue,

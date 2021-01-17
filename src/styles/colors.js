@@ -6,19 +6,9 @@ const Colors = {
   lightestGrey: '#ececec',
   lightBlue: '#ecf0f6',
   red: '#dc024c',
+  darkBlack: '#121212',
+  darkGrey: '#373737',
 };
-
-// const MyTheme = {
-//   dark: false,
-//   colors: {
-//     primary: 'rgb(255, 45, 85)',
-//     background: 'rgb(242, 242, 242)',
-//     card: 'rgb(255, 255, 255)',
-//     text: 'rgb(28, 28, 30)',
-//     border: 'rgb(199, 199, 204)',
-//     notification: 'rgb(255, 69, 58)',
-//   },
-// };
 
 const NativeColorTheme = {
   dark: false,
@@ -26,28 +16,30 @@ const NativeColorTheme = {
     primary: Colors.green,
     background: Colors.light,
     card: Colors.green,
-    text: '#fff',
-    border: '#000',
-    notification: '#121212',
+    text: '#000',
+    border: Colors.lightGrey,
+    notification: Colors.darkBlack,
     backgroundLight: Colors.lightGrey,
     backgroundChat: Colors.lightBlue,
-    input: Colors.light,
+    input: Colors.lightGrey,
+    chatInputContainer: Colors.light,
   },
 };
 
 const NightColorTheme = {
   dark: true,
   colors: {
-    primary: '#fff',
-    background: '#121212',
-    card: '#121212', // header
-    text: '#fff',
+    primary: Colors.light,
+    background: Colors.darkBlack,
+    card: Colors.darkBlack, // header
+    text: Colors.light,
     border: '#232323',
-    notification: '#121212',
-    backgroundLight: '#373737',
-    backgroundChat: '#373737',
+    notification: Colors.darkBlack,
+    backgroundLight: Colors.darkGrey,
+    backgroundChat: Colors.darkGrey,
     input: '#2c2c2e',
+    chatInput: Colors.darkBlack,
   },
 };
 
-export {Colors, NightColorTheme};
+export {Colors, NightColorTheme, NativeColorTheme};

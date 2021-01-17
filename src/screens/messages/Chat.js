@@ -114,7 +114,10 @@ export const ChatScreen = (props) => {
 
   return (
     <View
-      style={[gStyles.flexCenter, {backgroundColor: theme.colors.background}]}>
+      style={[
+        gStyles.flexCenter,
+        {backgroundColor: theme.colors.backgroundChat},
+      ]}>
       <ScrollView
         contentContainerStyle={chatStyles.scrollViewChatContainer}
         style={chatStyles.scrollViewChat}
@@ -142,7 +145,7 @@ export const ChatScreen = (props) => {
         style={[
           chatStyles.bottomAreaContainer,
           showEmoticons ? chatStyles.bottomAreaEmoji : '',
-          {backgroundColor: theme.colors.notification},
+          {backgroundColor: theme.colors.chatInputContainer},
         ]}>
         <View style={gStyles.row}>
           <Press

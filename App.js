@@ -11,7 +11,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MessagesScreen from './src/screens/messages/Messages';
 import {ServicesScreen} from './src/screens/messages/Services';
-import {Colors, NightColorTheme} from './src/styles/colors';
+import {Colors, NightColorTheme, NativeColorTheme} from './src/styles/colors';
 import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchScreen';
 import definitions from './src/styles/definitions';
 import gStyles from './src/styles/gStyles';
@@ -301,7 +301,7 @@ const main = () => {
   const scheme = useColorScheme();
   return (
     <NavigationContainer
-      theme={scheme !== 'dark' ? NightColorTheme : DefaultTheme}>
+      theme={scheme === 'dark' ? NightColorTheme : NativeColorTheme}>
       <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="Messages" component={Root} />
         <RootStack.Screen name="ChatStack" component={ChatStackScreen} />

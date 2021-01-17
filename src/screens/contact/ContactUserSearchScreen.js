@@ -75,7 +75,7 @@ export class ContactUserSearchScreen extends React.Component {
     const {props, state} = this;
     const {contact, searchTerm} = state;
     return (
-      <View style={[gStyles.flexCenter, gStyles.bgWhite]}>
+      <View style={[gStyles.flexCenter]}>
         {contact.length > 0 ? (
           <ContactList list={contact} />
         ) : (

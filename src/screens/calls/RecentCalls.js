@@ -43,7 +43,7 @@ const CallScreen = (props) => {
     second: SecondRoute,
   });
   return (
-    <View style={[gStyles.container, gStyles.bgWhite]}>
+    <View style={[gStyles.container]}>
       <View
         style={{
           zIndex: 1,

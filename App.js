@@ -4,13 +4,14 @@ import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
+  useTheme,
 } from '@react-navigation/native';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MessagesScreen from './src/screens/messages/Messages';
 import {ServicesScreen} from './src/screens/messages/Services';
-import {Colors} from './src/styles/colors';
+import {Colors, NightColorTheme} from './src/styles/colors';
 import Ripple from 'react-native-material-ripple';
 import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchScreen';
 import definitions from './src/styles/definitions';
@@ -46,9 +47,6 @@ const BibLogo = () => {
 };
 
 const screenOptions = {
-  headerStyle: {
-    backgroundColor: Colors.green,
-  },
   headerTitleStyle: {
     fontWeight: 'normal',
     fontFamily: 'museo',
@@ -60,13 +58,22 @@ const screenOptions = {
 
 const AppStack = createStackNavigator();
 const AppStackScreen = () => {
+  const theme = useTheme();
   return (
-    <AppStack.Navigator mode="card" screenOptions={screenOptions}>
+    <AppStack.Navigator
+      mode="card"
+      screenOptions={{
+        ...screenOptions,
+        headerStyle: {backgroundColor: theme.colors.card},
+      }}>
       <AppStack.Screen
         name="Home"
         component={MessagesScreen}
         options={({route, navigation}) => ({
           title: 'Messages',
+          headerStyle: {
+            backgroundColor: theme.colors.card,
+          },
           headerLeft: () => <BibLogo />,
           headerRight: () => (
             <Press
@@ -89,8 +96,8 @@ const AppStackScreen = () => {
               style={[
                 gStyles.row,
                 {
-                  backgroundColor: Colors.light,
-                  borderBottomColor: Colors.lightGrey,
+                  backgroundColor: theme.colors.background,
+                  borderBottomColor: theme.colors.border,
                   borderBottomWidth: 1,
                 },
               ]}>
@@ -104,7 +111,11 @@ const AppStackScreen = () => {
                 onChangeText={(value) =>
                   props.navigation.setParams({headerInputText: value})
                 }
+                placeholderTextColor={theme.colors.text}
                 value={props.navigation.headerInputText}
+                style={{
+                  color: theme.colors.text,
+                }}
               />
             </View>
           ),
@@ -117,8 +128,14 @@ const AppStackScreen = () => {
 
 const ChatStack = createStackNavigator();
 const ChatStackScreen = () => {
+  const theme = useTheme();
   return (
-    <ChatStack.Navigator mode="card" screenOptions={screenOptions}>
+    <ChatStack.Navigator
+      mode="card"
+      screenOptions={{
+        ...screenOptions,
+        headerStyle: {backgroundColor: theme.colors.card},
+      }}>
       <ChatStack.Screen
         name="Chat"
         component={ChatScreen}
@@ -186,8 +203,14 @@ const ChatStackScreen = () => {
 
 const CallStack = createStackNavigator();
 const CallStackScreen = () => {
+  const theme = useTheme();
   return (
-    <CallStack.Navigator mode="card" screenOptions={screenOptions}>
+    <CallStack.Navigator
+      mode="card"
+      screenOptions={{
+        ...screenOptions,
+        headerStyle: {backgroundColor: theme.colors.card},
+      }}>
       <CallStack.Screen
         component={RecentCallScreen}
         name="Calls"
@@ -210,8 +233,14 @@ const CallStackScreen = () => {
 
 const MoreStack = createStackNavigator();
 const MoreStackScreen = () => {
+  const theme = useTheme();
   return (
-    <MoreStack.Navigator mode="card" screenOptions={screenOptions}>
+    <MoreStack.Navigator
+      mode="card"
+      screenOptions={{
+        ...screenOptions,
+        headerStyle: {backgroundColor: theme.colors.card},
+      }}>
       <MoreStack.Screen
         component={MoreScreen}
         name="More"
@@ -226,6 +255,7 @@ const MoreStackScreen = () => {
 
 const Tab = createBottomTabNavigator();
 const Root = () => {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -245,7 +275,7 @@ const Root = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: Colors.green,
+        activeTintColor: theme.colors.primary,
         inactiveTintColor: Colors.grey,
         labelStyle: {
           paddingTop: 4,
@@ -253,8 +283,12 @@ const Root = () => {
           fontWeight: 'normal',
         },
         keyboardHidesTabBar: true,
-        style: {height: 60},
-        tabStyle: {paddingTop: 8, paddingBottom: 6},
+        style: {height: 60, borderTopColor: theme.colors.border},
+        tabStyle: {
+          paddingTop: 8,
+          paddingBottom: 6,
+          backgroundColor: theme.colors.background,
+        },
       }}>
       <Tab.Screen name="Messages" component={AppStackScreen} />
       <Tab.Screen name="Calls" component={CallStackScreen} />
@@ -267,7 +301,8 @@ const RootStack = createStackNavigator();
 const main = () => {
   const scheme = useColorScheme();
   return (
-    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer
+      theme={scheme !== 'dark' ? NightColorTheme : DefaultTheme}>
       <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="Messages" component={Root} />
         <RootStack.Screen name="ChatStack" component={ChatStackScreen} />

@@ -32,7 +32,7 @@ export default () => {
     {
       title: 'Settings',
       icon: 'md-settings-outline',
-      onPress: () => navigation.navigate('Other'),
+      onPress: () => navigation.navigate('Settings'),
     },
   ]),
     (settings = [

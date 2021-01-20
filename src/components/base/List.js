@@ -50,8 +50,7 @@ export default ({list}) => {
                   styles.listItemContainer,
                   {borderBottomColor: theme.colors.border},
                 ]}>
-                <Text
-                  style={[styles.listItemText, {color: theme.colors.primary}]}>
+                <Text style={[styles.listItemText, {color: theme.colors.text}]}>
                   {item.title}
                 </Text>
               </View>

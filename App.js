@@ -11,7 +11,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MessagesScreen from './src/screens/messages/Messages';
 import {ServicesScreen} from './src/screens/messages/Services';
-import {Colors, NightColorTheme, NativeColorTheme} from './src/styles/colors';
+import {
+  Colors,
+  NightColorTheme,
+  NativeColorTheme,
+  LavenderTheme,
+} from './src/styles/colors';
 import {ContactUserSearchScreen} from './src/screens/contact/ContactUserSearchScreen';
 import definitions from './src/styles/definitions';
 import gStyles from './src/styles/gStyles';
@@ -20,6 +25,12 @@ import {Press} from './src/components/base';
 import MoreScreen from './src/screens/more/More';
 import RecentCallScreen from './src/screens/calls/RecentCalls';
 import CallUserScreen from './src/screens/calls/CallUser';
+import SettingsScreen from './src/screens/settings/Settings';
+import {useState} from 'react';
+import Appearance from './src/screens/settings/Appearance';
+
+export const ThemeContext = React.createContext(null);
+
 function HomeScreen() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -248,6 +259,22 @@ const MoreStackScreen = () => {
           title: 'More',
         }}
       />
+      <MoreStack.Screen
+        component={SettingsScreen}
+        name="Settings"
+        options={{
+          headerTitleAlign: 'left',
+          title: 'Settings',
+        }}
+      />
+      <MoreStack.Screen
+        component={Appearance}
+        name="Appearance"
+        options={{
+          headerTitleAlign: 'left',
+          title: 'Appearance',
+        }}
+      />
     </MoreStack.Navigator>
   );
 };
@@ -298,17 +325,46 @@ const Root = () => {
 
 const RootStack = createStackNavigator();
 const main = () => {
-  const scheme = useColorScheme();
+  const [theme, setTheme] = useState('light');
+
+  setNativeTheme = () => {
+    setTheme('light');
+  };
+  setDarkTheme = () => {
+    setTheme('dark');
+  };
+  setLavenderTheme = () => {
+    setTheme('lavender');
+  };
+
+  getTheme = (theme) => {
+    let newTheme;
+    switch (theme) {
+      case 'dark':
+        newTheme = NightColorTheme;
+        break;
+      case 'lavender':
+        newTheme = LavenderTheme;
+        break;
+      default:
+        newTheme = NativeColorTheme;
+        break;
+    }
+    return newTheme;
+  };
+
   return (
-    <NavigationContainer
-      theme={scheme === 'dark' ? NightColorTheme : NativeColorTheme}>
-      <RootStack.Navigator headerMode="none">
-        <RootStack.Screen name="Messages" component={Root} />
-        <RootStack.Screen name="ChatStack" component={ChatStackScreen} />
-        <RootStack.Screen name="More" component={MoreStackScreen} />
-        <RootStack.Screen name="CallUser" component={CallUserScreen} />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <ThemeContext.Provider
+      value={{theme: theme, setLavenderTheme, setDarkTheme, setNativeTheme}}>
+      <NavigationContainer theme={getTheme(theme)}>
+        <RootStack.Navigator headerMode="none">
+          <RootStack.Screen name="Messages" component={Root} />
+          <RootStack.Screen name="ChatStack" component={ChatStackScreen} />
+          <RootStack.Screen name="More" component={MoreStackScreen} />
+          <RootStack.Screen name="CallUser" component={CallUserScreen} />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </ThemeContext.Provider>
   );
 };
 

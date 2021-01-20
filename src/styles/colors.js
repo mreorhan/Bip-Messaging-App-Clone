@@ -8,6 +8,7 @@ const Colors = {
   red: '#dc024c',
   darkBlack: '#121212',
   darkGrey: '#373737',
+  lavender: '#8252d7',
 };
 
 const NativeColorTheme = {
@@ -41,5 +42,20 @@ const NightColorTheme = {
     chatInput: Colors.darkBlack,
   },
 };
+const LavenderTheme = {
+  dark: true,
+  colors: {
+    primary: Colors.lavender,
+    background: Colors.light,
+    card: Colors.lavender, // header
+    text: Colors.lavender,
+    border: '#232323',
+    notification: Colors.darkBlack,
+    backgroundLight: Colors.lightGrey,
+    backgroundChat: Colors.lightGrey,
+    input: '#2c2c2e',
+    chatInput: Colors.lightGrey,
+  },
+};
 
-export {Colors, NightColorTheme, NativeColorTheme};
+export {Colors, NightColorTheme, NativeColorTheme, LavenderTheme};
